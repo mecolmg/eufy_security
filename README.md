@@ -10,7 +10,7 @@ Under the hood, it is using `eufy-security-ws` (https://github.com/bropat/eufy-s
 - start_livesteam / start_p2p_livestream / stop_livestream / stop_p2p_livestream (P2P): if there is no support for RTSP, you can use P2P streaming, this should work for all camera types but much more power consuming for your HA instance.
 - turn_on / turn_off: it first checks **if there is rtsp attribute in camera and if yes; it will use RTSP services,** if not, it will use P2P services.
 - enable_rtsp / disable_rtsp: to enable RTSP option in cameras, you can use this services, but I rather prefer you to enable it using the mobile app because enabling rtsp configuration also triggers a new stream to start which causes issues for integration.
-- enable / disable: enable and disable respective device
+- enable / disable: enable and disable respective device.
 
 ## 1.2 Station Services ##
 ![image](https://user-images.githubusercontent.com/11085566/127906780-ba18d5a0-03c3-407a-922a-dc519e59dfe8.png)
@@ -60,7 +60,7 @@ logger:
 ***Warning, there is an existing integration (https://github.com/nonsleepr/ha-eufy-security) and I have used the same internal name with this integration, unintentinally. You can not keep both integrations and trying to install might cause issues. You can backup old one if you want to test this, just rename `custom_components/eufy_security` into something else (eg `eufy_security_nonsleepr`)***
 
 Please follow screenshots below. In summary;
-- You will first install HASS Add On assuming you are running on Hassos or Supervised. If not, please execute this command to run docker instance manually ```docker run -it -e USERNAME=email@address.com -e PASSWORD=password_goes_here -p 3000:3000 bropat/eufy-security-ws:X.Y.Z```. To find out correct values for X.Y.Z, please chek here https://github.com/fuatakgun/eufy_security_addon/blob/main/config.json#L3
+- You will first install HASS Add On assuming you are running on Hassos or Supervised. If not, please execute this command to run docker instance manually ```docker run -it -e USERNAME=email@address.com -e PASSWORD=password_goes_here -e COUNTRY=country_code -p 3000:3000 bropat/eufy-security-ws:X.Y.Z```. To find out correct values for X.Y.Z, please check here https://github.com/fuatakgun/eufy_security_addon/blob/main/config.json#L3
 - Later on, you should install RTSP Server Add On to have faster/more reliable p2p streaming. I will deprecate/not support file based streaming soon, so, please migrate in timely manner. If you are not using Hassos or Supervised installation please execute this command to run docker instance manually ```docker run --rm -it -e RTSP_PROTOCOLS=tcp -d -p 8554:8554 -p 1935:1935 aler9/rtsp-simple-server```
 - When you are done with HASS Add On, you will install integration via HACS, downloading files over UI, restarting home assistant and setting up integration.
 - Double check if your `configuration.yaml` includes `ffmpeg` integration. If not, please do like this; https://www.home-assistant.io/integrations/ffmpeg/#configuration . This integration relies on `ffmpeg` to be setup to live stream via P2P and capture images from live RTSP/P2P streams.
